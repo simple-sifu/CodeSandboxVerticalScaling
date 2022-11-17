@@ -1,0 +1,2 @@
+# CodeSandboxVerticalScaling
+Created with CodeSandbox
