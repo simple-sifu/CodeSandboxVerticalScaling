@@ -13,4 +13,9 @@ export default class BooksPresenter {
   setMode = async (mode) => {
     booksRepository.mode = mode === "public" ? "allbooks" : "books";
   };
+
+  setSort = async (sortDirection) => {
+    booksRepository.sortDirection = sortDirection
+  };
 }
+

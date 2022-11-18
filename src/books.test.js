@@ -83,37 +83,68 @@ beforeEach(() => {
     }
   });
 
-  setUp = async (modeArgs) => {
+  setUp = async (modeArgs, sortDirection) => {
     booksPresenter.setMode(modeArgs);
+    if (sortDirection) booksPresenter.setSort(sortDirection);
     await booksPresenter.load((result) => {
       viewModel = result;
     });
   };
 });
 
-it("should load private books if mode not provided", async () => {
-  await setUp(null);
-  expect(viewModel.length).toBe(3);
-  expect(viewModel[0].name).toBe("Wind in the willows");
-  expect(viewModel[0].author).toBe("Kenneth Graeme");
-  expect(viewModel[2].name).toBe("The Hobbit");
-  expect(viewModel[2].author).toBe("Jrr Tolkein");
-});
+describe( 'Visibility test cases', () => {
 
-it("should load private books", async () => {
-  await setUp("private");
-  expect(viewModel.length).toBe(3);
-  expect(viewModel[0].name).toBe("Wind in the willows");
-  expect(viewModel[0].author).toBe("Kenneth Graeme");
-  expect(viewModel[2].name).toBe("The Hobbit");
-  expect(viewModel[2].author).toBe("Jrr Tolkein");
-});
+  it("should load private books if mode not provided", async () => {
+    await setUp(null);
+    expect(viewModel.length).toBe(3);
+    expect(viewModel[0].name).toBe("I, Robot");
+    expect(viewModel[0].author).toBe("Isaac Asimov");
+    expect(viewModel[2].name).toBe("Wind in the willows");
+    expect(viewModel[2].author).toBe("Kenneth Graeme");
+  });
+  
+  it("should load private books", async () => {
+    await setUp("private");
+    expect(viewModel.length).toBe(3);
+    expect(viewModel[0].name).toBe("I, Robot");
+    expect(viewModel[0].author).toBe("Isaac Asimov");
+    expect(viewModel[2].name).toBe("Wind in the willows");
+    expect(viewModel[2].author).toBe("Kenneth Graeme");
+  });
+  
+  it("should load public books", async () => {
+    await setUp("public");
+    expect(viewModel.length).toBe(5);
+    expect(viewModel[0].name).toBe("I, Robot");
+    expect(viewModel[0].author).toBe("Isaac Asimov");
+    expect(viewModel[2].name).toBe("The Art of War");
+    expect(viewModel[2].author).toBe("Sun Tzu");
+  });
 
-it("should load public books", async () => {
-  await setUp("public");
-  expect(viewModel.length).toBe(5);
-  expect(viewModel[0].name).toBe("Moby Dick");
-  expect(viewModel[0].author).toBe("Herman Melville");
-  expect(viewModel[2].name).toBe("Wind in the willows");
-  expect(viewModel[2].author).toBe("Kenneth Graeme");
-});
+})
+
+describe( 'Sort test cases', () => {
+
+  it("should load private books in desc order", async () => {
+    await setUp(null, "desc");
+
+    expect(viewModel.length).toBe(3);
+    expect(viewModel[0].name).toBe("I, Robot");
+    expect(viewModel[0].author).toBe("Isaac Asimov");
+    expect(viewModel[2].name).toBe("Wind in the willows");
+    expect(viewModel[2].author).toBe("Kenneth Graeme");
+  });
+
+  it("should load private books in asc order", async () => {
+    await setUp(null, "asc");
+
+    expect(viewModel.length).toBe(3);
+    expect(viewModel[0].name).toBe("Wind in the willows");
+    expect(viewModel[0].author).toBe("Kenneth Graeme");
+    expect(viewModel[2].name).toBe("I, Robot");
+    expect(viewModel[2].author).toBe("Isaac Asimov");
+  });
+  
+
+})
+
