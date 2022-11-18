@@ -91,6 +91,15 @@ beforeEach(() => {
   };
 });
 
+it("should load private books if mode not provided", async () => {
+  await setUp(null);
+  expect(viewModel.length).toBe(3);
+  expect(viewModel[0].name).toBe("Wind in the willows");
+  expect(viewModel[0].author).toBe("Kenneth Graeme");
+  expect(viewModel[2].name).toBe("The Hobbit");
+  expect(viewModel[2].author).toBe("Jrr Tolkein");
+});
+
 it("should load private books", async () => {
   await setUp("private");
   expect(viewModel.length).toBe(3);
